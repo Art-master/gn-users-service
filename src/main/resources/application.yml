@@ -1,0 +1,87 @@
+logging:
+  level:
+    root: DEBUG
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+    org.springframework.boot.autoconfigure: DEBUG
+    liquibase: INFO
+
+server:
+  address: 0.0.0.0
+  error:
+    include-message: always
+  port: ${APP_PORT:8080}
+  servlet:
+    context-path: /users-service/
+
+spring:
+  application:
+    name: tree-data
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_ADDR}/auth/realms/genappline-realm
+  data:
+    r2dbc:
+      repositories:
+        enabled: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USER}
+  jpa:
+    properties:
+      hibernate:
+        default_schema: ${DB_SCHEMA:public}
+  liquibase:
+    change-log: classpath:db/changelog/root.xml
+    default-schema: ${DB_SCHEMA}
+    driver-class-name: org.postgresql.Driver
+  main:
+    allow-bean-definition-overriding: true
+  r2dbc:
+    name: ${DB_NAME}
+    password: ${DB_PASSWORD}
+    pool:
+      enabled: true
+      initial-size: 10
+      max-idle-time: 1m
+      max-size: 50
+    properties:
+      errorResponseLogLevel: DEBUG
+      host: ${DB_HOST}
+      port: ${DB_PORT}
+      schema: ${DB_SCHEMA:public}
+    url: r2dbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USER}
+
+#OPEN TRACING
+opentracing:
+  jaeger:
+    log-spans: true
+    udp-sender:
+      port: 6831
+      host: localhost
+    enabled: true
+    const-sampler:
+      decision: true
+    enable-b3-propagation: true
+
+# METRICS
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, prometheus
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true
