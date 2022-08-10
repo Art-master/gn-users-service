@@ -2,7 +2,7 @@
 
 ***Environment variables to run the application*** (replace values if need)
 ```env
-APP_PORT=8081
+APP_PORT=8082
 DB_USER=postgres
 DB_PASSWORD=admin
 DB_NAME=tree

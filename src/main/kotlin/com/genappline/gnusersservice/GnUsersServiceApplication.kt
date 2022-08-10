@@ -8,8 +8,8 @@ import org.springframework.web.reactive.config.EnableWebFlux
 @SpringBootApplication
 @EnableWebFlux
 @EnableConfigurationProperties
-class TreeApplication
+class Application
 
 fun main(args: Array<String>) {
-	SpringApplication.run(TreeApplication::class.java, *args)
+	SpringApplication.run(Application::class.java, *args)
 }
